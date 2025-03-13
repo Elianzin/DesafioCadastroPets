@@ -15,10 +15,10 @@ Leia TODO o desafio com ATENÇÃO antes de começar a faze-lo e respeite as regr
 ## Objetivo
 Neste desafio, você será desafiado a criar um sistema de cadastro via CLI (interface de linha de comando), para nossos futuros adotantes poderem escolher o seu animalzinho.
 
-O dono do abrigo de animais que será o usuário do seu programa será capaz de:
+O dono do abrigo de animais que será o usuário do seu program será capaz de:
 
 - Cadastrar um novo pet
-- Buscar dados do pet cadastrado
+- Buscar data do pet cadastrado
 - Deletar um pet cadastrado
 - Listar todos os pets cadastrados
 - Listar pets por algum critério (idade, nome, raça)
@@ -67,7 +67,7 @@ Sua aplicação deve ler o conteúdo desse arquivo `.txt` e exibir as perguntas 
 Após o arquivo estar printando o conteúdo do `formulario.txt` no terminal, você deverá criar um menu inicial com as seguintes opções:
 
 1. Cadastrar um novo pet
-2. Alterar os dados do pet cadastrado
+2. Alterar os data do pet cadastrado
 3. Deletar um pet cadastrado
 4. Listar todos os pets cadastrados
 5. Listar pets por algum critério (idade, nome, raça)
@@ -129,8 +129,8 @@ Exemplo de arquivo salvo:
 7 - Siames
 ```
 
-## 📍Passo 5: Buscar os dados do Pet Cadastrado 🔍
-O usuário, ao selecionar a opção 2, deverá ser capaz de buscar o pet usando determinados dados.
+## 📍Passo 5: Buscar os data do Pet Cadastrado 🔍
+O usuário, ao selecionar a opção 2, deverá ser capaz de buscar o pet usando determinados data.
 O usuário poderá buscar o pet por:
 - Nome ou sobrenome
 - Sexo
@@ -167,13 +167,13 @@ Após o usuário selecionar os critérios, você deverá printar no terminal os 
 2. Ao imprimir os resultados encontrados, colocar em NEGRITO o termo da pesquisa utilizado quando for encontrado na resposta. (Exemplo: Se ele pesquisar por FLOR, o nome do pet deverá ser impresso em NEGRITO)
 
 ## 📍Passo 6: Altera um pet cadastrado ✍️
-Permitir que o usuário altere os dados de um pet cadastrado.
+Permitir que o usuário altere os data de um pet cadastrado.
 
 ### _Regras ⚠️_
 1. O usuário deverá BUSCAR seguindo os critérios da resposta anterior.
 2. Caso o usuário digite um número de busca inválido, o menu de busca deverá ser exibido novamente.
 3. O usuário receberá uma LISTA (igual a exibição anterior) com os resultados da busca, e deverá escolher o número do pet que deseja alterar.
-4. O usuário poderá alterar TODOS os dados do pet, EXCETO o TIPO E SEXO
+4. O usuário poderá alterar TODOS os data do pet, EXCETO o TIPO E SEXO
 
 ## 📍Passo 7: Deletar um animal cadastro 🔍
 O usuário, ao selecionar a opção de 4, deverá ser capaz de deletar o pet.
@@ -189,11 +189,11 @@ O usuário, ao selecionar a opção de 4, deverá ser capaz de deletar o pet.
 
 ## 📍Passo 8: Sair 
 
-Ao selecionar a opção 5, o programa deverá ser encerrado.
+Ao selecionar a opção 5, o program deverá ser encerrado.
 
 ## 📍Passo EXTRA ☠️☠️☠️
 
-Caso você tenha concluído todos os passos anteriores, você poderá implementar uma funcionalidade extra para o seu programa.
+Caso você tenha concluído todos os passos anteriores, você poderá implementar uma funcionalidade extra para o seu program.
 
 Você irá criar na tela inicial, uma nova tela de opções, sendo:
 
