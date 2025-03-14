@@ -18,31 +18,139 @@ public class programa {
         int opcao = menu(sc);
 
         if (opcao == 1){
+
             List<String> perguntas = exibirFormulario();
+
+            boolean nomeValido;
+
+            String nome;
 
             int c = 0;
 
-            String regex = "[a-zA-Z]";
+            String regex = "^(([aA-zZ])+(\\s[aA-zZ]+)+)$";
 
             Pattern pattern = Pattern.compile(regex);
 
-            System.out.println(perguntas.get(c));
-            System.out.print("Digite: ");
+            do {
 
-            try {
+                nomeValido = true;
 
-                String nome = sc.nextLine();
+                System.out.println(perguntas.get(c));
+                System.out.print("Digite: ");
 
-                Matcher matcher = pattern.matcher(nome);
+                try {
 
-                if (!regex.matches(nome)) {
-                    throw new Exception("Não são permitidos caracteres especiais nem números!");
+                    nome = sc.nextLine();
+
+                    Matcher matcher = pattern.matcher(nome);
+
+                    if (!matcher.matches()) {
+                        throw new Exception("Erro: O nome do seu pet deve ser apenas letras e um ou mais espaços separando o nome e o sobrenome!" + "\n" + "Exemplo correto: Bruce Bumstead");
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                    nomeValido = false;
+                    Thread.sleep(1000);
                 }
 
-            }catch (Exception e){
-                System.out.println(e.getMessage());
+            }while (!nomeValido);
 
-            }
+            String tipo;
+
+            boolean tipoValido;
+
+            c++;
+
+            do {
+
+                tipoValido = true;
+
+                System.out.println(perguntas.get(c));
+                System.out.print("Digite: ");
+                tipo = sc.next();
+
+                if (!tipo.equalsIgnoreCase("Cachorro") && !tipo.equalsIgnoreCase("Gato")) {
+                    System.out.println("Digite um tipo de pet valido!" + "\n" + "Os validos são Cachorro e Gato!");
+                    tipoValido = false;
+                    Thread.sleep(1000);
+                }
+
+            }while (!tipoValido);
+
+            boolean sexoValido;
+
+            String sexo;
+
+            c++;
+
+            do {
+
+                sexoValido = true;
+
+                System.out.println(perguntas.get(c));
+                System.out.print("Digite: ");
+                sexo = sc.next();
+
+                if (!sexo.equalsIgnoreCase("Macho") && !sexo.equalsIgnoreCase("Femea")){
+                    System.out.println("Digite um genero de pet valido!" + "\n" + "Os validos são Macho e Femea!");
+                    sexoValido = false;
+                    Thread.sleep(1000);
+                }
+
+            }while (!sexoValido);
+
+            c++;
+
+            boolean informacoesValidas;
+
+            int numeroDaCasa;
+            String cidade;
+            String rua;
+
+            do {
+
+                String numeroDaCasaString;
+
+                informacoesValidas = true;
+
+                System.out.println(perguntas.get(c));
+
+                System.out.print("Número da casa: ");
+                numeroDaCasaString = sc.next();
+
+                try {
+
+                    numeroDaCasa = Integer.parseInt(numeroDaCasaString);
+
+                }catch (Exception e){
+                    System.out.println("Para número da casa só são valido digitos!");
+                    informacoesValidas = false;
+                }
+
+            }while (!informacoesValidas);
+
+            String regex2 = "[a-zA-Zãéáí-]+";
+            Pattern pattern2 = Pattern.compile(regex2);
+
+            do {
+
+                informacoesValidas = true;
+
+                System.out.print("Cidade (Se a cidade conter espaço substituir por hífen): ");
+                cidade = sc.next();
+
+                Matcher matcher2 = pattern2.matcher(cidade);
+
+                if (!matcher2.matches()){
+                    System.out.println("Digite um nome de cidade valido!");
+                    informacoesValidas = false;
+                }
+
+            }while (!informacoesValidas);
+
+            System.out.print("Rua: ");
+            rua = sc.next();
 
         }
     }
@@ -90,6 +198,7 @@ public class programa {
         
         return opcao;
     }
+
     public static List<String> exibirFormulario(){
 
         List<String> perguntas = new ArrayList<>();
@@ -111,6 +220,4 @@ public class programa {
 
         return perguntas;
     }
-    
-    
 }
