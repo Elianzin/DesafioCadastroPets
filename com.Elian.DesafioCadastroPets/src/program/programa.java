@@ -1,5 +1,7 @@
 package program;
 
+import entities.Pet;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,6 +17,8 @@ public class programa {
 
         Scanner sc = new Scanner(System.in);
 
+        final String NAO_INFORMADO = "Não Informado";
+
         int opcao = menu(sc);
 
         if (opcao == 1){
@@ -23,7 +27,7 @@ public class programa {
 
             boolean nomeValido;
 
-            String nome;
+            String nome = "";
 
             int c = 0;
 
@@ -44,7 +48,9 @@ public class programa {
 
                     Matcher matcher = pattern.matcher(nome);
 
-                    if (!matcher.matches()) {
+                    if (nome.isBlank()){
+                        nome = NAO_INFORMADO;
+                    }else if (!matcher.matches()) {
                         throw new Exception("Erro: O nome do seu pet deve ser apenas letras e um ou mais espaços separando o nome e o sobrenome!" + "\n" + "Exemplo correto: Bruce Bumstead");
                     }
 
@@ -78,6 +84,8 @@ public class programa {
 
             }while (!tipoValido);
 
+            Pet.TIPO enumTipo = Pet.TIPO.valueOf(tipo.toUpperCase());
+
             boolean sexoValido;
 
             String sexo;
@@ -100,11 +108,13 @@ public class programa {
 
             }while (!sexoValido);
 
+            Pet.SEXO enumSexo = Pet.SEXO.valueOf(sexo.toUpperCase());
+
             c++;
 
             boolean informacoesValidas;
 
-            int numeroDaCasa;
+            int numeroDaCasa = 0;
             String cidade;
             String rua;
 
@@ -118,10 +128,15 @@ public class programa {
 
                 System.out.print("Número da casa: ");
                 numeroDaCasaString = sc.next();
+                sc.nextLine();
 
                 try {
 
                     numeroDaCasa = Integer.parseInt(numeroDaCasaString);
+
+                    if (numeroDaCasaString.isBlank()){
+                        numeroDaCasaString = NAO_INFORMADO;
+                    }
 
                 }catch (Exception e){
                     System.out.println("Para número da casa só são valido digitos!");
@@ -130,15 +145,15 @@ public class programa {
 
             }while (!informacoesValidas);
 
-            String regex2 = "[a-zA-Zãéáí-]+";
+            String regex2 = "^(([aA-zZãíóáâ-])*(\\s[aA-zZãíóáâ-]+)*)$";
             Pattern pattern2 = Pattern.compile(regex2);
 
             do {
 
                 informacoesValidas = true;
 
-                System.out.print("Cidade (Se a cidade conter espaço substituir por hífen): ");
-                cidade = sc.next();
+                System.out.print("Cidade: ");
+                cidade = sc.nextLine();
 
                 Matcher matcher2 = pattern2.matcher(cidade);
 
@@ -150,7 +165,112 @@ public class programa {
             }while (!informacoesValidas);
 
             System.out.print("Rua: ");
-            rua = sc.next();
+            rua = sc.nextLine();
+
+            String endereco = rua + ", " + numeroDaCasa + ", " + cidade;
+
+            c++;
+
+            double idade = 0;
+
+            do {
+
+                String idadeString;
+
+                informacoesValidas = true;
+
+                System.out.println(perguntas.get(c));
+
+                System.out.print("Digite: ");
+                idadeString = sc.next();
+                sc.nextLine();
+
+                try {
+                    idade = Double.parseDouble(idadeString);
+
+                    if (idadeString.isBlank()){
+                        idadeString = NAO_INFORMADO;
+                    }else if (idade > 20){
+                        throw new IllegalArgumentException();
+                    }
+
+                }catch (IllegalArgumentException e){
+                    System.out.println("A idade não pode ser maior que 20 anos!");
+                    informacoesValidas = false;
+                    Thread.sleep(1000);
+                }catch (Exception e){
+                    System.out.println("Para idade só são valido digitos!");
+                    informacoesValidas = false;
+                    Thread.sleep(1000);
+                }
+
+            }while (!informacoesValidas);
+
+            c++;
+
+            double peso = 0;
+
+            do {
+
+                String pesoString;
+
+                informacoesValidas = true;
+
+                System.out.println(perguntas.get(c));
+
+                System.out.print("Digite: ");
+                pesoString = sc.next();
+                sc.nextLine();
+
+                try {
+                    peso = Double.parseDouble(pesoString);
+
+                    if (pesoString.isBlank()){
+                        pesoString = NAO_INFORMADO;
+                    }else if (peso > 60){
+                        throw new IllegalArgumentException("O peso não pode ser maior que 60 kilos!");
+                    }else if (peso < 0.5){
+                        throw new IllegalArgumentException("O peso não pode ser menor que 0.5 kilos!");
+                    }
+
+                }catch (IllegalArgumentException e){
+                    System.out.println(e.getMessage());
+                    informacoesValidas = false;
+                    Thread.sleep(1000);
+                }catch (Exception e){
+                    System.out.println("Para idade só são valido digitos!");
+                    informacoesValidas = false;
+                    Thread.sleep(1000);
+                }
+
+            }while (!informacoesValidas);
+
+            c++;
+
+            String raca;
+
+            do {
+
+                informacoesValidas = true;
+
+                System.out.println(perguntas.get(c));
+
+                System.out.print("Raça: ");
+                raca = sc.nextLine();
+
+                Matcher matcher3 = pattern2.matcher(raca);
+
+                if (raca.isBlank()){
+                    raca = NAO_INFORMADO;
+                }else if (!matcher3.matches()){
+                    System.out.println("Digite um nome de raça valido!");
+                    informacoesValidas = false;
+                }
+
+            }while (!informacoesValidas);
+
+
+            Pet pet = new Pet(nome, endereco, raca, idade, peso, enumTipo, enumSexo);
 
         }
     }

@@ -7,6 +7,8 @@ public class Pet {
     private String raca;
     private double idade;
     private double peso;
+    private TIPO tipo;
+    private SEXO sexo;
 
     public enum TIPO{
         CACHORRO, GATO
@@ -16,12 +18,15 @@ public class Pet {
         MACHO, FEMEA
     }
 
-    public Pet(String nome, String endereco, String raca, double idade, double peso) {
+    public Pet(String nome, String endereco, String raca, double idade, double peso, TIPO tipo, SEXO sexo) {
         this.nome = nome;
         this.endereco = endereco;
         this.raca = raca;
         this.idade = idade;
         this.peso = peso;
+        this.tipo = tipo;
+        this.sexo = sexo;
+
     }
 
     public String getNome() {
@@ -62,5 +67,21 @@ public class Pet {
 
     public void setPeso(double peso) {
         this.peso = peso;
+    }
+
+    public TIPO getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(TIPO tipo) {
+        this.tipo = tipo;
+    }
+
+    public SEXO getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(SEXO sexo) {
+        this.sexo = sexo;
     }
 }
