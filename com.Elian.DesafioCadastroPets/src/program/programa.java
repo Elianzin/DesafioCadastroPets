@@ -5,6 +5,7 @@ import entities.Pet;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,8 +17,6 @@ public class programa {
     public static void main(String[] args) throws InterruptedException {
 
         Scanner sc = new Scanner(System.in);
-
-        final String NAO_INFORMADO = "Não Informado";
 
         int opcao = menu(sc);
 
@@ -48,9 +47,7 @@ public class programa {
 
                     Matcher matcher = pattern.matcher(nome);
 
-                    if (nome.isBlank()){
-                        nome = NAO_INFORMADO;
-                    }else if (!matcher.matches()) {
+                    if (!matcher.matches()) {
                         throw new Exception("Erro: O nome do seu pet deve ser apenas letras e um ou mais espaços separando o nome e o sobrenome!" + "\n" + "Exemplo correto: Bruce Bumstead");
                     }
 
@@ -114,7 +111,7 @@ public class programa {
 
             boolean informacoesValidas;
 
-            int numeroDaCasa = 0;
+            String numeroDaCasa = "";
             String cidade;
             String rua;
 
@@ -132,11 +129,11 @@ public class programa {
 
                 try {
 
-                    numeroDaCasa = Integer.parseInt(numeroDaCasaString);
-
-                    if (numeroDaCasaString.isBlank()){
-                        numeroDaCasaString = NAO_INFORMADO;
+                    if (!numeroDaCasaString.matches("[0-9]*[0-9]*[0-9]*[0-9]*")){
+                        throw new Exception();
                     }
+
+                    numeroDaCasa = numeroDaCasaString;
 
                 }catch (Exception e){
                     System.out.println("Para número da casa só são valido digitos!");
@@ -167,7 +164,7 @@ public class programa {
             System.out.print("Rua: ");
             rua = sc.nextLine();
 
-            String endereco = rua + ", " + numeroDaCasa + ", " + cidade;
+            String endereco = rua + ", " + numeroDaCasa+ ", " + cidade;
 
             c++;
 
@@ -188,9 +185,7 @@ public class programa {
                 try {
                     idade = Double.parseDouble(idadeString);
 
-                    if (idadeString.isBlank()){
-                        idadeString = NAO_INFORMADO;
-                    }else if (idade > 20){
+                    if (idade > 20){
                         throw new IllegalArgumentException();
                     }
 
@@ -225,9 +220,7 @@ public class programa {
                 try {
                     peso = Double.parseDouble(pesoString);
 
-                    if (pesoString.isBlank()){
-                        pesoString = NAO_INFORMADO;
-                    }else if (peso > 60){
+                     if (peso > 60){
                         throw new IllegalArgumentException("O peso não pode ser maior que 60 kilos!");
                     }else if (peso < 0.5){
                         throw new IllegalArgumentException("O peso não pode ser menor que 0.5 kilos!");
@@ -260,18 +253,14 @@ public class programa {
 
                 Matcher matcher3 = pattern2.matcher(raca);
 
-                if (raca.isBlank()){
-                    raca = NAO_INFORMADO;
-                }else if (!matcher3.matches()){
+                if (!matcher3.matches()){
                     System.out.println("Digite um nome de raça valido!");
                     informacoesValidas = false;
                 }
 
             }while (!informacoesValidas);
 
-
             Pet pet = new Pet(nome, endereco, raca, idade, peso, enumTipo, enumSexo);
-
         }
     }
 

@@ -1,5 +1,9 @@
 package entities;
 
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Pet {
 
     private String nome;
@@ -18,7 +22,7 @@ public class Pet {
         MACHO, FEMEA
     }
 
-    public Pet(String nome, String endereco, String raca, double idade, double peso, TIPO tipo, SEXO sexo) {
+    public Pet(String nome, String endereco, String raca, double idade, double peso, TIPO tipo, SEXO sexo){
         this.nome = nome;
         this.endereco = endereco;
         this.raca = raca;
@@ -26,6 +30,61 @@ public class Pet {
         this.peso = peso;
         this.tipo = tipo;
         this.sexo = sexo;
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm");
+
+        String path = LocalDateTime.now().format(dtf) + nome.toUpperCase() + ".txt";
+
+        File petsCadastrados = new File("C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\com.Elian.DesafioCadastroPets\\src\\data","PetsCadastrados");
+        boolean mkdir = petsCadastrados.mkdir();
+
+        File file = new File(petsCadastrados, path.replace(" ", "T"));
+
+        final String NAO_INFORMADO = "NÃO INFORMADO";
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
+
+            if (nome.isBlank()) {
+                bw.write("1 - " + NAO_INFORMADO);
+            }else {
+                bw.write("1 - " + nome);
+            }
+
+            bw.newLine();
+            bw.write("2 - " + tipo);
+            bw.newLine();
+            bw.write("3 - " + sexo);
+            bw.newLine();
+            bw.write("4 - " + endereco);
+            bw.newLine();
+
+            if (idade > 1) {
+                bw.write("5 - " + String.format("%.0f", idade) + " meses");
+            }else if (idade == 0){
+                bw.write("5 - " + NAO_INFORMADO);
+            }else {
+                bw.write("5 - " + idade + " anos");
+            }
+            bw.newLine();
+
+            if (peso == 0) {
+                bw.write("6 - " + NAO_INFORMADO);
+            }else {
+                bw.write("6 - " + peso + "kg");
+            }
+            bw.newLine();
+
+            if (raca.isBlank()) {
+                bw.write("7 - " + NAO_INFORMADO);
+            }else {
+                bw.write("7 - " + raca);
+            }
+
+            bw.newLine();
+
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
 
     }
 
