@@ -5,7 +5,6 @@ import entities.Pet;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,11 +13,13 @@ import java.util.regex.Pattern;
 
 public class programa {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         Scanner sc = new Scanner(System.in);
 
         int opcao = menu(sc);
+
+        final String NAO_INFORMADO = "NÃO INFORMADO";
 
         if (opcao == 1){
 
@@ -30,7 +31,7 @@ public class programa {
 
             int c = 0;
 
-            String regex = "^(([aA-zZ])+(\\s[aA-zZ]+)+)$";
+            String regex = "^(([aA-zZ])*(\\s[aA-zZ]+)*)$";
 
             Pattern pattern = Pattern.compile(regex);
 
@@ -47,8 +48,10 @@ public class programa {
 
                     Matcher matcher = pattern.matcher(nome);
 
-                    if (!matcher.matches()) {
-                        throw new Exception("Erro: O nome do seu pet deve ser apenas letras e um ou mais espaços separando o nome e o sobrenome!" + "\n" + "Exemplo correto: Bruce Bumstead");
+                    if (nome.isBlank()) {
+                        nome = "";
+                    }else if (!matcher.matches()) {
+                        throw new Exception("Erro: O nome do seu pet deve ser apenas letras!" + "\n" + "Exemplos: Rex, Bruce Bumstead");
                     }
 
                 } catch (Exception e) {
@@ -123,13 +126,17 @@ public class programa {
 
                 System.out.println(perguntas.get(c));
 
-                System.out.print("Número da casa: ");
-                numeroDaCasaString = sc.next();
-                sc.nextLine();
+                System.out.print("Número da casa (se não deseja preencher digite 0): ");
 
                 try {
 
-                    if (!numeroDaCasaString.matches("[0-9]*[0-9]*[0-9]*[0-9]*")){
+                    numeroDaCasaString = sc.next();
+                    sc.nextLine();
+
+                    if (Integer.parseInt(numeroDaCasaString) == 0){
+                        numeroDaCasaString = NAO_INFORMADO;
+                    }else
+                        if (!numeroDaCasaString.matches("[0-9]*[0-9]*[0-9]*[0-9]*")){
                         throw new Exception();
                     }
 
@@ -164,6 +171,10 @@ public class programa {
             System.out.print("Rua: ");
             rua = sc.nextLine();
 
+            if (rua.isBlank()){
+                rua = NAO_INFORMADO;
+            }
+
             String endereco = rua + ", " + numeroDaCasa+ ", " + cidade;
 
             c++;
@@ -178,7 +189,7 @@ public class programa {
 
                 System.out.println(perguntas.get(c));
 
-                System.out.print("Digite: ");
+                System.out.print("Digite (se não deseja preencher digite 0): ");
                 idadeString = sc.next();
                 sc.nextLine();
 
@@ -186,11 +197,13 @@ public class programa {
                     idade = Double.parseDouble(idadeString);
 
                     if (idade > 20){
-                        throw new IllegalArgumentException();
+                        throw new IllegalArgumentException("A idade não pode ser maior que 20 anos!");
+                    } else if (idade > 0.12 && idade < 1){
+                        throw new IllegalArgumentException("Se a idade for menor que 1 ano represente-a em meses!!\n" + "Exemplos: 0.11, 0.08 ");
                     }
 
                 }catch (IllegalArgumentException e){
-                    System.out.println("A idade não pode ser maior que 20 anos!");
+                    System.out.println(e.getMessage());
                     informacoesValidas = false;
                     Thread.sleep(1000);
                 }catch (Exception e){
@@ -213,7 +226,7 @@ public class programa {
 
                 System.out.println(perguntas.get(c));
 
-                System.out.print("Digite: ");
+                System.out.print("Digite (se não deseja preencher digite 0): ");
                 pesoString = sc.next();
                 sc.nextLine();
 
@@ -222,7 +235,7 @@ public class programa {
 
                      if (peso > 60){
                         throw new IllegalArgumentException("O peso não pode ser maior que 60 kilos!");
-                    }else if (peso < 0.5){
+                    }else if (peso < 0.5 && peso > 0.1){
                         throw new IllegalArgumentException("O peso não pode ser menor que 0.5 kilos!");
                     }
 
@@ -253,7 +266,9 @@ public class programa {
 
                 Matcher matcher3 = pattern2.matcher(raca);
 
-                if (!matcher3.matches()){
+                if (raca.isBlank()) {
+                    raca = "";
+                }else if (!matcher3.matches()){
                     System.out.println("Digite um nome de raça valido!");
                     informacoesValidas = false;
                 }
@@ -312,7 +327,7 @@ public class programa {
 
         List<String> perguntas = new ArrayList<>();
 
-        String formulario = "C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\com.Elian.DesafioCadastroPets\\src\\data\\formulario.txt";
+        String formulario = "C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\src\\src\\data\\formulario.txt";
 
         try (BufferedReader br = new BufferedReader(new FileReader(formulario))){
 

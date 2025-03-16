@@ -22,7 +22,7 @@ public class Pet {
         MACHO, FEMEA
     }
 
-    public Pet(String nome, String endereco, String raca, double idade, double peso, TIPO tipo, SEXO sexo){
+    public Pet(String nome, String endereco, String raca, double idade, double peso, TIPO tipo, SEXO sexo) throws IOException {
         this.nome = nome;
         this.endereco = endereco;
         this.raca = raca;
@@ -31,24 +31,30 @@ public class Pet {
         this.tipo = tipo;
         this.sexo = sexo;
 
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HH:mm");
-
-        String path = LocalDateTime.now().format(dtf) + nome.toUpperCase() + ".txt";
-
-        File petsCadastrados = new File("C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\com.Elian.DesafioCadastroPets\\src\\data","PetsCadastrados");
-        boolean mkdir = petsCadastrados.mkdir();
-
-        File file = new File(petsCadastrados, path.replace(" ", "T"));
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyyMMdd HHmm");
 
         final String NAO_INFORMADO = "NÃO INFORMADO";
 
+        if (nome.isBlank()){
+            nome = NAO_INFORMADO;
+        }
+
+        String nome2 = nome.replace(" ", "");
+
+        String path = LocalDateTime.now().format(dtf).replace(" ", "T") + "-" + nome2.toUpperCase() + ".txt";
+
+        File petsCadastrados = new File("C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\src\\src\\data","PetsCadastrados");
+        boolean mkdir = petsCadastrados.mkdir();
+
+        path = path.replace(" ", "T");
+
+        File file = new File(petsCadastrados, path);
+        boolean newFile = file.createNewFile();
+
+
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))){
 
-            if (nome.isBlank()) {
-                bw.write("1 - " + NAO_INFORMADO);
-            }else {
-                bw.write("1 - " + nome);
-            }
+            bw.write("1 - " + nome);
 
             bw.newLine();
             bw.write("2 - " + tipo);
@@ -58,10 +64,10 @@ public class Pet {
             bw.write("4 - " + endereco);
             bw.newLine();
 
-            if (idade > 1) {
-                bw.write("5 - " + String.format("%.0f", idade) + " meses");
-            }else if (idade == 0){
+            if (idade == 0){
                 bw.write("5 - " + NAO_INFORMADO);
+            }else if(idade < 1) {
+                bw.write("5 - " + idade + " meses");
             }else {
                 bw.write("5 - " + idade + " anos");
             }
