@@ -67,9 +67,9 @@ public class Pet {
             if (idade == 0){
                 bw.write("5 - " + NAO_INFORMADO);
             }else if(idade < 1) {
-                bw.write("5 - " + idade + " meses");
+                bw.write("5 - " + String.valueOf(idade).replace("0", "").replace(".", "") + " meses");
             }else {
-                bw.write("5 - " + idade + " anos");
+                bw.write("5 - " + String.valueOf(idade).replace("0.", "") + " anos");
             }
             bw.newLine();
 
