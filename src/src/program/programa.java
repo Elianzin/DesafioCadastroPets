@@ -15,268 +15,352 @@ public class programa {
 
     public static void main(String[] args) throws InterruptedException, IOException {
 
-        Scanner sc = new Scanner(System.in);
-
-        int opcao = menu(sc);
-
         final String NAO_INFORMADO = "NÃO INFORMADO";
 
-        if (opcao == 1){
+        boolean sair;
 
-            List<String> perguntas = exibirFormulario();
+        List<Pet> listaPets = new ArrayList<>();
 
-            boolean nomeValido;
+        do {
 
-            String nome = "";
+            sair = false;
 
-            int c = 0;
+            Scanner sc = new Scanner(System.in);
 
-            String regex = "^(([aA-zZ])*(\\s[aA-zZ]+)*)$";
+            int opcao = menu(sc);
 
-            Pattern pattern = Pattern.compile(regex);
+            if (opcao == 1) {
 
-            do {
+                List<String> perguntas = exibirFormulario();
 
-                nomeValido = true;
+                boolean nomeValido;
 
-                System.out.println(perguntas.get(c));
-                System.out.print("Digite: ");
+                String nome = "";
 
-                try {
+                int c = 0;
 
-                    nome = sc.nextLine();
+                String regex = "^(([aA-zZ])*(\\s[aA-zZ]+)*)$";
 
-                    Matcher matcher = pattern.matcher(nome);
+                Pattern pattern = Pattern.compile(regex);
 
-                    if (nome.isBlank()) {
-                        nome = "";
-                    }else if (!matcher.matches()) {
-                        throw new Exception("Erro: O nome do seu pet deve ser apenas letras!" + "\n" + "Exemplos: Rex, Bruce Bumstead");
+                do {
+
+                    nomeValido = true;
+
+                    System.out.println(perguntas.get(c));
+                    System.out.print("Digite: ");
+
+                    try {
+
+                        nome = sc.nextLine();
+
+                        Matcher matcher = pattern.matcher(nome);
+
+                        if (nome.isBlank()) {
+                            nome = "";
+                        } else if (!matcher.matches()) {
+                            throw new Exception("Erro: O nome do seu pet deve ser apenas letras!" + "\n" + "Exemplos: Rex, Bruce Bumstead");
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                        nomeValido = false;
+                        Thread.sleep(1000);
                     }
 
-                } catch (Exception e) {
-                    System.out.println(e.getMessage());
-                    nomeValido = false;
-                    Thread.sleep(1000);
+                } while (!nomeValido);
+
+                String tipo;
+
+                boolean tipoValido;
+
+                c++;
+
+                do {
+
+                    tipoValido = true;
+
+                    System.out.println(perguntas.get(c));
+                    System.out.print("Digite: ");
+                    tipo = sc.next();
+
+                    if (!tipo.equalsIgnoreCase("Cachorro") && !tipo.equalsIgnoreCase("Gato")) {
+                        System.out.println("Digite um tipo de pet valido!" + "\n" + "Os validos são Cachorro e Gato!");
+                        tipoValido = false;
+                        Thread.sleep(1000);
+                    }
+
+                } while (!tipoValido);
+
+                Pet.TIPO enumTipo = Pet.TIPO.valueOf(tipo.toUpperCase());
+
+                boolean sexoValido;
+
+                String sexo;
+
+                c++;
+
+                do {
+
+                    sexoValido = true;
+
+                    System.out.println(perguntas.get(c));
+                    System.out.print("Digite: ");
+                    sexo = sc.next();
+
+                    if (!sexo.equalsIgnoreCase("Macho") && !sexo.equalsIgnoreCase("Femea")) {
+                        System.out.println("Digite um genero de pet valido!" + "\n" + "Os validos são Macho e Femea!");
+                        sexoValido = false;
+                        Thread.sleep(1000);
+                    }
+
+                } while (!sexoValido);
+
+                Pet.SEXO enumSexo = Pet.SEXO.valueOf(sexo.toUpperCase());
+
+                c++;
+
+                boolean informacoesValidas;
+
+                String numeroDaCasa = "";
+                String cidade;
+                String rua;
+
+                do {
+
+                    String numeroDaCasaString;
+
+                    informacoesValidas = true;
+
+                    System.out.println(perguntas.get(c));
+
+                    System.out.print("Número da casa (se não deseja preencher digite 0): ");
+
+                    try {
+
+                        numeroDaCasaString = sc.next();
+                        sc.nextLine();
+
+                        if (Integer.parseInt(numeroDaCasaString) == 0) {
+                            numeroDaCasaString = NAO_INFORMADO;
+                        } else if (!numeroDaCasaString.matches("[0-9]*[0-9]*[0-9]*[0-9]*")) {
+                            throw new Exception();
+                        }
+
+                        numeroDaCasa = numeroDaCasaString;
+
+                    } catch (Exception e) {
+                        System.out.println("Para número da casa só são valido digitos!");
+                        informacoesValidas = false;
+                    }
+
+                } while (!informacoesValidas);
+
+                String regex2 = "^(([aA-zZãíóáâ-])*(\\s[aA-zZãíóáâ-]+)*)$";
+                Pattern pattern2 = Pattern.compile(regex2);
+
+                do {
+
+                    informacoesValidas = true;
+
+                    System.out.print("Cidade: ");
+                    cidade = sc.nextLine();
+
+                    Matcher matcher2 = pattern2.matcher(cidade);
+
+                    if (!matcher2.matches()) {
+                        System.out.println("Digite um nome de cidade valido!");
+                        informacoesValidas = false;
+                    }
+
+                } while (!informacoesValidas);
+
+                System.out.print("Rua: ");
+                rua = sc.nextLine();
+
+                if (rua.isBlank()) {
+                    rua = NAO_INFORMADO;
                 }
 
-            }while (!nomeValido);
+                String endereco = rua + ", " + numeroDaCasa + ", " + cidade;
 
-            String tipo;
+                c++;
 
-            boolean tipoValido;
+                double idade = 0;
 
-            c++;
+                do {
 
-            do {
+                    String idadeString;
 
-                tipoValido = true;
+                    informacoesValidas = true;
 
-                System.out.println(perguntas.get(c));
-                System.out.print("Digite: ");
-                tipo = sc.next();
+                    System.out.println(perguntas.get(c));
 
-                if (!tipo.equalsIgnoreCase("Cachorro") && !tipo.equalsIgnoreCase("Gato")) {
-                    System.out.println("Digite um tipo de pet valido!" + "\n" + "Os validos são Cachorro e Gato!");
-                    tipoValido = false;
-                    Thread.sleep(1000);
-                }
-
-            }while (!tipoValido);
-
-            Pet.TIPO enumTipo = Pet.TIPO.valueOf(tipo.toUpperCase());
-
-            boolean sexoValido;
-
-            String sexo;
-
-            c++;
-
-            do {
-
-                sexoValido = true;
-
-                System.out.println(perguntas.get(c));
-                System.out.print("Digite: ");
-                sexo = sc.next();
-
-                if (!sexo.equalsIgnoreCase("Macho") && !sexo.equalsIgnoreCase("Femea")){
-                    System.out.println("Digite um genero de pet valido!" + "\n" + "Os validos são Macho e Femea!");
-                    sexoValido = false;
-                    Thread.sleep(1000);
-                }
-
-            }while (!sexoValido);
-
-            Pet.SEXO enumSexo = Pet.SEXO.valueOf(sexo.toUpperCase());
-
-            c++;
-
-            boolean informacoesValidas;
-
-            String numeroDaCasa = "";
-            String cidade;
-            String rua;
-
-            do {
-
-                String numeroDaCasaString;
-
-                informacoesValidas = true;
-
-                System.out.println(perguntas.get(c));
-
-                System.out.print("Número da casa (se não deseja preencher digite 0): ");
-
-                try {
-
-                    numeroDaCasaString = sc.next();
+                    System.out.print("Digite (se não deseja preencher digite 0): ");
+                    idadeString = sc.next();
                     sc.nextLine();
 
-                    if (Integer.parseInt(numeroDaCasaString) == 0){
-                        numeroDaCasaString = NAO_INFORMADO;
-                    }else
-                        if (!numeroDaCasaString.matches("[0-9]*[0-9]*[0-9]*[0-9]*")){
-                        throw new Exception();
+                    try {
+                        idade = Double.parseDouble(idadeString);
+
+                        if (idade > 20) {
+                            throw new IllegalArgumentException("A idade não pode ser maior que 20 anos!");
+                        } else if (idade > 0.12 && idade < 1) {
+                            throw new IllegalArgumentException("Se a idade for menor que 1 ano represente-a em meses!!\n" + "Exemplos: 0.11, 0.08 ");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                        informacoesValidas = false;
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        System.out.println("Para idade só são valido digitos!");
+                        informacoesValidas = false;
+                        Thread.sleep(1000);
                     }
 
-                    numeroDaCasa = numeroDaCasaString;
+                } while (!informacoesValidas);
 
-                }catch (Exception e){
-                    System.out.println("Para número da casa só são valido digitos!");
-                    informacoesValidas = false;
+                c++;
+
+                double peso = 0;
+
+                do {
+
+                    String pesoString;
+
+                    informacoesValidas = true;
+
+                    System.out.println(perguntas.get(c));
+
+                    System.out.print("Digite (se não deseja preencher digite 0): ");
+                    pesoString = sc.next();
+                    sc.nextLine();
+
+                    try {
+                        peso = Double.parseDouble(pesoString);
+
+                        if (peso > 60) {
+                            throw new IllegalArgumentException("O peso não pode ser maior que 60 kilos!");
+                        } else if (peso < 0.5 && peso > 0.1) {
+                            throw new IllegalArgumentException("O peso não pode ser menor que 0.5 kilos!");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                        informacoesValidas = false;
+                        Thread.sleep(1000);
+                    } catch (Exception e) {
+                        System.out.println("Para idade só são valido digitos!");
+                        informacoesValidas = false;
+                        Thread.sleep(1000);
+                    }
+
+                } while (!informacoesValidas);
+
+                c++;
+
+                String raca;
+
+                do {
+
+                    informacoesValidas = true;
+
+                    System.out.println(perguntas.get(c));
+
+                    System.out.print("Raça: ");
+                    raca = sc.nextLine();
+
+                    Matcher matcher3 = pattern2.matcher(raca);
+
+                    if (raca.isBlank()) {
+                        raca = "";
+                    } else if (!matcher3.matches()) {
+                        System.out.println("Digite um nome de raça valido!");
+                        informacoesValidas = false;
+                    }
+
+                } while (!informacoesValidas);
+
+                Pet pet = new Pet(nome, endereco, raca, idade, peso, enumTipo, enumSexo);
+
+                listaPets.add(pet);
+
+            } else if (opcao == 2) {
+
+                if (!listarPetsPorCriterio(listaPets)){
+                    System.out.println("Não existem pets com estes criterios");
                 }
 
-            }while (!informacoesValidas);
+            } else if (opcao == 3) {
 
-            String regex2 = "^(([aA-zZãíóáâ-])*(\\s[aA-zZãíóáâ-]+)*)$";
-            Pattern pattern2 = Pattern.compile(regex2);
+                boolean posicaoExiste;
+                boolean infoExiste;
 
-            do {
+                String info;
+                int num;
 
-                informacoesValidas = true;
+                if (listarPetsPorCriterio(listaPets)){
 
-                System.out.print("Cidade: ");
-                cidade = sc.nextLine();
+                    do {
 
-                Matcher matcher2 = pattern2.matcher(cidade);
+                        posicaoExiste = true;
 
-                if (!matcher2.matches()){
-                    System.out.println("Digite um nome de cidade valido!");
-                    informacoesValidas = false;
+                        System.out.print("Digite o número na lista do pet que você deseja alterar: ");
+                        num = sc.nextInt();
+                        sc.nextLine();
+
+                        if (num > listaPets.size() || num == 0) {
+                            System.out.println("Digite um número de pet que existe na lista!");
+                            posicaoExiste = false;
+                            Thread.sleep(1000);
+                        }
+
+                    } while (!posicaoExiste);
+
+                    num--;
+
+                    do {
+
+                        infoExiste = true;
+
+                        System.out.print("Digite a informação que deseja trocar nesse pet: ");
+                        info = sc.nextLine();
+
+                        if (!info.equalsIgnoreCase("nome") && !info.equalsIgnoreCase("endereço") && !info.equalsIgnoreCase("endereco") && !info.equalsIgnoreCase("idade") && !info.equalsIgnoreCase("peso") && !info.equalsIgnoreCase("raca") && !info.equalsIgnoreCase("raça")){
+                            System.out.println("As informações que podem ser alteradas são: nome, endereço, idade, peso e raça");
+                            infoExiste = false;
+                            Thread.sleep(1000);
+                        }
+
+                    }while (!infoExiste);
+
+                    System.out.println("Digite o que deseja inserir na informação " + info + ": ");
+                    String infoNova = sc.nextLine();
+
+                    if (info.equalsIgnoreCase("Nome")){
+                        listaPets.get(num).setNome(infoNova);
+                    } else if (info.equalsIgnoreCase("endereco") || info.equalsIgnoreCase("endereço")){
+                        listaPets.get(num).setEndereco(infoNova);
+                    } else if (info.equalsIgnoreCase("idade")){
+                        listaPets.get(num).setIdade(Double.parseDouble(infoNova));
+                    } else if (info.equalsIgnoreCase("peso")){
+                        listaPets.get(num).setPeso(Double.parseDouble(infoNova));
+                    } else {
+                        listaPets.get(num).setRaca(infoNova);
+                    }
+
+                }else {
+                    System.out.println("Não encontrado");
+                    Thread.sleep(1000);
                 }
 
-            }while (!informacoesValidas);
 
-            System.out.print("Rua: ");
-            rua = sc.nextLine();
-
-            if (rua.isBlank()){
-                rua = NAO_INFORMADO;
+            } else if (opcao == 6) {
+                sair = true;
             }
 
-            String endereco = rua + ", " + numeroDaCasa+ ", " + cidade;
-
-            c++;
-
-            double idade = 0;
-
-            do {
-
-                String idadeString;
-
-                informacoesValidas = true;
-
-                System.out.println(perguntas.get(c));
-
-                System.out.print("Digite (se não deseja preencher digite 0): ");
-                idadeString = sc.next();
-                sc.nextLine();
-
-                try {
-                    idade = Double.parseDouble(idadeString);
-
-                    if (idade > 20){
-                        throw new IllegalArgumentException("A idade não pode ser maior que 20 anos!");
-                    } else if (idade > 0.12 && idade < 1){
-                        throw new IllegalArgumentException("Se a idade for menor que 1 ano represente-a em meses!!\n" + "Exemplos: 0.11, 0.08 ");
-                    }
-
-                }catch (IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-                    informacoesValidas = false;
-                    Thread.sleep(1000);
-                }catch (Exception e){
-                    System.out.println("Para idade só são valido digitos!");
-                    informacoesValidas = false;
-                    Thread.sleep(1000);
-                }
-
-            }while (!informacoesValidas);
-
-            c++;
-
-            double peso = 0;
-
-            do {
-
-                String pesoString;
-
-                informacoesValidas = true;
-
-                System.out.println(perguntas.get(c));
-
-                System.out.print("Digite (se não deseja preencher digite 0): ");
-                pesoString = sc.next();
-                sc.nextLine();
-
-                try {
-                    peso = Double.parseDouble(pesoString);
-
-                     if (peso > 60){
-                        throw new IllegalArgumentException("O peso não pode ser maior que 60 kilos!");
-                    }else if (peso < 0.5 && peso > 0.1){
-                        throw new IllegalArgumentException("O peso não pode ser menor que 0.5 kilos!");
-                    }
-
-                }catch (IllegalArgumentException e){
-                    System.out.println(e.getMessage());
-                    informacoesValidas = false;
-                    Thread.sleep(1000);
-                }catch (Exception e){
-                    System.out.println("Para idade só são valido digitos!");
-                    informacoesValidas = false;
-                    Thread.sleep(1000);
-                }
-
-            }while (!informacoesValidas);
-
-            c++;
-
-            String raca;
-
-            do {
-
-                informacoesValidas = true;
-
-                System.out.println(perguntas.get(c));
-
-                System.out.print("Raça: ");
-                raca = sc.nextLine();
-
-                Matcher matcher3 = pattern2.matcher(raca);
-
-                if (raca.isBlank()) {
-                    raca = "";
-                }else if (!matcher3.matches()){
-                    System.out.println("Digite um nome de raça valido!");
-                    informacoesValidas = false;
-                }
-
-            }while (!informacoesValidas);
-
-            Pet pet = new Pet(nome, endereco, raca, idade, peso, enumTipo, enumSexo);
-        }
+        } while (!sair);
     }
 
     public static int menu(Scanner sc) throws InterruptedException {
@@ -287,8 +371,8 @@ public class programa {
 
         System.out.println("========================================================");
         System.out.println("| 1 - Cadastrar um novo pet                            |");
-        System.out.println("| 2 - Alterar dados de um pet cadastrado               |");
-        System.out.println("| 3 - Deletar um pet cadastrado                        |");
+        System.out.println("| 2 - Buscar dados do pet cadastrado                   |");
+        System.out.println("| 3 - Altera as informações de um pet cadastrado       |");
         System.out.println("| 4 - Listar todos os pets cadastrados                 |");
         System.out.println("| 5 - Listar pets por algum criterio (idade,nome,raça) |");
         System.out.println("| 6 - Sair                                             |");
@@ -305,7 +389,7 @@ public class programa {
 
                 if (opcao > 0 && opcao < 7) {
                     entradaValida = true;
-                }else {
+                } else {
                     throw new Exception();
                 }
 
@@ -319,17 +403,17 @@ public class programa {
             }
 
         } while (!entradaValida);
-        
+
         return opcao;
     }
 
-    public static List<String> exibirFormulario(){
+    public static List<String> exibirFormulario() {
 
         List<String> perguntas = new ArrayList<>();
 
         String formulario = "C:\\Users\\emath\\IdeaProjects\\DesafioCadastroPets\\src\\src\\data\\formulario.txt";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(formulario))){
+        try (BufferedReader br = new BufferedReader(new FileReader(formulario))) {
 
             String line = br.readLine();
 
@@ -338,10 +422,109 @@ public class programa {
                 line = br.readLine();
             }
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
         return perguntas;
+    }
+
+    public static boolean listarPetsPorCriterio(List<Pet> listaPets) throws InterruptedException {
+
+        Scanner sc = new Scanner(System.in);
+
+        boolean algumEncontrado = false;
+
+        if (listaPets.isEmpty()) {
+            System.out.println("Você não possui pets cadastrados! ");
+            Thread.sleep(1000);
+        } else {
+
+            boolean tipoValido;
+
+            do {
+
+                tipoValido = true;
+
+                System.out.print("Digite o tipo do pet: ");
+                String tipoAnimal = sc.next();
+
+                if (!tipoAnimal.equalsIgnoreCase("Cachorro") && !tipoAnimal.equalsIgnoreCase("Gato")) {
+                    System.out.println("Digite um tipo de pet valido! \n" + "Os validos são Cachorro e Gato!");
+                    tipoValido = false;
+                    Thread.sleep(1000);
+                }
+
+            } while (!tipoValido);
+
+            System.out.print("""
+                    1 - Nome ou sobrenome
+                    2 - Sexo
+                    3 - Idade
+                    4 - Peso
+                    5 - Raça
+                    6 - Endereço
+                    Digite:\s""");
+            int opcao2 = sc.nextInt();
+            sc.nextLine();
+
+            System.out.print("Digite o criterio 1: ");
+            String criterio1 = sc.nextLine();
+
+            System.out.print("Deseja informar outro criterio? (S/N): ");
+            String confirmacao = sc.next();
+
+
+            boolean criterioValido;
+
+            int opcao3;
+
+            String criterio2 = "";
+
+            if (confirmacao.equalsIgnoreCase("S")) {
+
+                do {
+                    criterioValido = true;
+
+                    System.out.print("Digite o segundo criterio: ");
+                    opcao3 = sc.nextInt();
+
+                    if (opcao3 == opcao2) {
+                        System.out.println("Digite outro criterio que não seja o que você já escolheu!");
+                        criterioValido = false;
+                        Thread.sleep(1000);
+                    }
+
+                } while (!criterioValido);
+
+                System.out.print("Digite o criterio 2 que você escolheu: ");
+                criterio2 = sc.nextLine();
+
+            }
+
+            int c = 1;
+
+            if (criterio2.isBlank()) {
+
+                for (Pet listaPet : listaPets) {
+                    if (listaPet.toString().toLowerCase().contains(criterio1.toLowerCase())) {
+                        System.out.println(c + " - " + listaPet);
+                        algumEncontrado = true;
+                    }
+                }
+
+            } else {
+
+                for (Pet listaPet : listaPets) {
+                    if (listaPet.toString().toLowerCase().contains(criterio1.toLowerCase()) && listaPet.toString().toLowerCase().contains(criterio2.toLowerCase())) {
+                        System.out.println(c + " - " + listaPet);
+                        algumEncontrado = true;
+                    }
+                }
+            }
+            Thread.sleep(1000);
+        }
+
+        return algumEncontrado;
     }
 }

@@ -149,4 +149,9 @@ public class Pet {
     public void setSexo(SEXO sexo) {
         this.sexo = sexo;
     }
+
+    @Override
+    public String toString() {
+        return nome + " - " + tipo + " - " + sexo + " - " + endereco + " - " + idade + " anos " + " - " + peso + "kg " + " - " + raca;
+    }
 }
