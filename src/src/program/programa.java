@@ -286,6 +286,9 @@ public class programa {
 
                 listaPets.add(pet);
 
+                System.out.println("PET ADICIONADO COM SUCESSO!");
+                Thread.sleep(1000);
+
             } else if (opcao == 2) {
 
                 if (!listarPetsPorCriterio(listaPets)){
@@ -356,6 +359,76 @@ public class programa {
                 }
 
 
+
+            } else if (opcao == 4) {
+
+                if (listaPets.isEmpty()){
+                    System.out.println("Você não possui pets cadastrados! ");
+                    Thread.sleep(1000);
+                }else {
+
+                    for (Pet pet : listaPets) {
+
+                        System.out.println(pet);
+
+                    }
+                }
+
+            } else if (opcao == 5) {
+
+                boolean posicaoExiste;
+
+                int num;
+
+                if (listarPetsPorCriterio(listaPets)) {
+
+                    do {
+
+                        posicaoExiste = true;
+
+                        System.out.print("Digite o número na lista do pet que você deseja deletar: ");
+                        num = sc.nextInt();
+                        sc.nextLine();
+
+                        if (num > listaPets.size() || num == 0) {
+                            System.out.println("Digite um número de pet que existe na lista!");
+                            posicaoExiste = false;
+                            Thread.sleep(1000);
+                        }
+
+                    } while (!posicaoExiste);
+
+                    boolean respostaValida;
+
+                    num--;
+
+
+                    do {
+
+                        respostaValida = true;
+
+                        System.out.print("Tem certeza que deseja excluir o pet " + listaPets.get(num).getNome() + "? (Sim/Não): ");
+                        String confirmacao = sc.next();
+
+                        if (!confirmacao.equalsIgnoreCase("Sim") && !confirmacao.equalsIgnoreCase("Nao")) {
+                            System.out.println("Digite uma resposta valida!");
+                            respostaValida = false;
+                            Thread.sleep(1000);
+                        }else {
+
+                            if (confirmacao.equalsIgnoreCase("Sim")){
+                                System.out.println("Pet excluido com sucesso!");
+                                listaPets.remove(num);
+                            }else {
+                                System.out.println("OK!");
+                            }
+
+                        }
+
+                    }while (!respostaValida);
+
+                }
+
             } else if (opcao == 6) {
                 sair = true;
             }
@@ -367,15 +440,15 @@ public class programa {
 
         boolean entradaValida = false;
 
-        int opcao = 0;
+        int opcao;
 
         System.out.println("========================================================");
-        System.out.println("| 1 - Cadastrar um novo pet                            |");
-        System.out.println("| 2 - Buscar dados do pet cadastrado                   |");
-        System.out.println("| 3 - Altera as informações de um pet cadastrado       |");
-        System.out.println("| 4 - Listar todos os pets cadastrados                 |");
-        System.out.println("| 5 - Listar pets por algum criterio (idade,nome,raça) |");
-        System.out.println("| 6 - Sair                                             |");
+        System.out.println("| 1 - Cadastrar um novo pet \uD83D\uDCDD                         |");
+        System.out.println("| 2 - Buscar dados do pet cadastrado \uD83D\uDD0D                |");
+        System.out.println("| 3 - Altera as informações de um pet cadastrado \uD83D\uDCDD    |");
+        System.out.println("| 4 - Listar todos os pets cadastrados \uD83D\uDCCB              |");
+        System.out.println("| 5 - Deletar um animal cadastro ❌                    |");
+        System.out.println("| 6 - Sair \uD83D\uDEAA                                          |");
         System.out.println("========================================================");
         System.out.print("Digite: ");
 
@@ -498,7 +571,7 @@ public class programa {
                 } while (!criterioValido);
 
                 System.out.print("Digite o criterio 2 que você escolheu: ");
-                criterio2 = sc.nextLine();
+                criterio2 = sc.next();
 
             }
 

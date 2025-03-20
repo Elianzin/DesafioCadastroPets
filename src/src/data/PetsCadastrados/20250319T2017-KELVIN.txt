@@ -1,7 +1,0 @@
-1 - Kelvin
-2 - CACHORRO
-3 - MACHO
-4 - rua 10, 10, Curitiba
-5 - 4.0 anos
-6 - 20.0kg
-7 - Labrador

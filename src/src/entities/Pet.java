@@ -152,6 +152,6 @@ public class Pet {
 
     @Override
     public String toString() {
-        return nome + " - " + tipo + " - " + sexo + " - " + endereco + " - " + idade + " anos " + " - " + peso + "kg " + " - " + raca;
+        return nome + " - " + tipo + " - " + sexo + " - " + endereco + " - " + idade + " anos" + " - " + peso + "kg" + " - " + raca;
     }
 }
