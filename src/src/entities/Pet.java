@@ -4,6 +4,8 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static java.lang.Integer.parseInt;
+
 public class Pet {
 
     private String nome;
@@ -66,7 +68,9 @@ public class Pet {
 
             if (idade == 0){
                 bw.write("5 - " + NAO_INFORMADO);
-            }else if(idade < 1) {
+            } else if (idade == 0.10) {
+                bw.write("5 - 0.10 meses");
+            } else if(idade < 1) {
                 bw.write("5 - " + String.valueOf(idade).replace("0", "").replace(".", "") + " meses");
             }else {
                 bw.write("5 - " + String.valueOf(idade).replace("0.", "") + " anos");

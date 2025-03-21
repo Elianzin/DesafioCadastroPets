@@ -291,9 +291,7 @@ public class programa {
 
             } else if (opcao == 2) {
 
-                if (!listarPetsPorCriterio(listaPets)){
-                    System.out.println("Não existem pets com estes criterios");
-                }
+                listarPetsPorCriterio(listaPets);
 
             } else if (opcao == 3) {
 
@@ -530,6 +528,8 @@ public class programa {
 
             } while (!tipoValido);
 
+            System.out.println("Selecione um criterio: ");
+
             System.out.print("""
                     1 - Nome ou sobrenome
                     2 - Sexo
@@ -541,7 +541,7 @@ public class programa {
             int opcao2 = sc.nextInt();
             sc.nextLine();
 
-            System.out.print("Digite o criterio 1: ");
+            System.out.print("Digite o criterio selecionado: ");
             String criterio1 = sc.nextLine();
 
             System.out.print("Deseja informar outro criterio? (S/N): ");
